@@ -2426,6 +2426,41 @@
   margin-top: 0.5rem;
 }
 
+.shop-card-actions {
+  position: absolute;
+  right: -50px;
+  /* Hidden by default */
+  top: 50%;
+  transform: translateY(-50%);
+  transition: right 0.3s ease;
+  z-index: 5;
+}
+
+.shop-card:hover .shop-card-actions {
+  right: 15px;
+  /* Pan in on hover */
+}
+
+.add-to-cart-quick {
+  background: #fff;
+  color: #c4a158;
+  border: none;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-quick:hover {
+  background: #c4a158;
+  color: #fff;
+}
+
+
 .shop-pagination {
   margin-top: 4rem;
   display: flex;

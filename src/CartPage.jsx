@@ -40,26 +40,26 @@ const CartPage = ({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout, onBac
                             <tbody>
                                 {cartItems.map((item) => (
                                     <tr key={item.id}>
-                                        <td className="product-remove">
+                                        <td className="product-remove" data-title="Remove">
                                             <button onClick={() => onRemoveItem(item.id)}>×</button>
                                         </td>
-                                        <td className="product-thumbnail">
+                                        <td className="product-thumbnail" data-title="Image">
                                             <img src={item.image} alt={item.name} />
                                         </td>
-                                        <td className="product-name">
+                                        <td className="product-name" data-title="Product">
                                             {item.name}
                                         </td>
-                                        <td className="product-price">
+                                        <td className="product-price" data-title="Price">
                                             {item.price}
                                         </td>
-                                        <td className="product-quantity">
+                                        <td className="product-quantity" data-title="Quantity">
                                             <div className="qty-controls small">
                                                 <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}>-</button>
                                                 <input type="text" value={item.quantity} readOnly />
                                                 <button onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}>+</button>
                                             </div>
                                         </td>
-                                        <td className="product-subtotal">
+                                        <td className="product-subtotal" data-title="Subtotal">
                                             ${(parseFloat(item.price.replace('$', '')) * item.quantity).toFixed(2)}
                                         </td>
                                     </tr>

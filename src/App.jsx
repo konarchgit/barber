@@ -41,6 +41,15 @@ function App() {
   const [cart, setCart] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedBlogPost, setSelectedBlogPost] = useState(null);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
+
+  const toggleSubmenu = (menu) => {
+    if (activeSubmenu === menu) {
+      setActiveSubmenu(null);
+    } else {
+      setActiveSubmenu(menu);
+    }
+  };
 
 
   const addToCart = (product, quantity = 1) => {
@@ -248,20 +257,13 @@ function App() {
             <img src={require('./barber-logo.png')} alt="Barber Salon" className="logo-img" />
           </a>
 
-          {/* Mobile Toggle */}
-          <button className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
-          </button>
-
           <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
             <div className="nav-item">
               <a href="#" className={page === 'home' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('home') }}>Home</a>
               <span className="nav-arrow">∨</span>
             </div>
-            <div className="nav-item has-submenu">
-              <a href="#">Portfolio</a>
+            <div className={`nav-item has-submenu ${activeSubmenu === 'portfolio' ? 'submenu-active' : ''}`}>
+              <a href="#" onClick={(e) => { if (window.innerWidth <= 900) { e.preventDefault(); toggleSubmenu('portfolio'); } }}>Portfolio</a>
               <span className="nav-arrow">∨</span>
               <ul className="submenu">
                 <li><a href="#">Portfolio Masonry</a></li>
@@ -278,8 +280,16 @@ function App() {
               <a href="#" className={page === 'blog' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('blog') }}>Blog</a>
               <span className="nav-arrow">∨</span>
             </div>
-            <div className="nav-item has-submenu mega-menu-parent">
-              <a href="#" className={page === 'shop' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('shop') }}>Shop</a>
+            <div className={`nav-item has-submenu mega-menu-parent ${activeSubmenu === 'shop' ? 'submenu-active' : ''}`}>
+              <a href="#" className={page === 'shop' ? 'active-link' : ''} onClick={(e) => {
+                if (window.innerWidth <= 900) {
+                  e.preventDefault();
+                  toggleSubmenu('shop');
+                } else {
+                  e.preventDefault();
+                  setPage('shop');
+                }
+              }}>Shop</a>
               <span className="nav-arrow">∨</span>
               <div className="mega-menu">
                 <div className="mega-column">
@@ -338,8 +348,13 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="nav-item has-submenu">
-              <a href="#" className={page === 'contact' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('contact') }}>Pages</a>
+            <div className={`nav-item has-submenu ${activeSubmenu === 'pages' ? 'submenu-active' : ''}`}>
+              <a href="#" className={page === 'contact' ? 'active-link' : ''} onClick={(e) => {
+                if (window.innerWidth <= 900) {
+                  e.preventDefault();
+                  toggleSubmenu('pages');
+                }
+              }}>Pages</a>
               <span className="nav-arrow">∨</span>
               <ul className="submenu">
                 <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('contact') }}>Contact Us</a></li>
@@ -355,50 +370,59 @@ function App() {
             </div>
           </div>
 
-          <div className="nav-icons">
-            <div className="nav-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </div>
-            <div className="nav-icon cart-icon-wrapper" onClick={() => setPage('cart')}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-              <span className="cart-count">{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>
+          <div className="nav-actions">
+            <div className="nav-icons">
+              <div className="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+              <div className="nav-icon cart-icon-wrapper" onClick={() => setPage('cart')}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span className="cart-count">{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>
 
-              <div className="mini-cart-dropdown" onClick={(e) => e.stopPropagation()}>
-                <div className="mini-cart-header">
-                  You have {cart.reduce((acc, item) => acc + item.quantity, 0)} item(s) in your cart
-                </div>
-                <div className="mini-cart-items">
-                  {cart.map(item => (
-                    <div key={item.id} className="mini-cart-item">
-                      <img src={item.image} alt={item.name} className="mini-cart-img" />
-                      <div className="mini-cart-info">
-                        <h4>{item.name}</h4>
-                        <div className="mini-cart-price">{item.quantity} × {item.price}</div>
+                <div className="mini-cart-dropdown" onClick={(e) => e.stopPropagation()}>
+                  <div className="mini-cart-header">
+                    You have {cart.reduce((acc, item) => acc + item.quantity, 0)} item(s) in your cart
+                  </div>
+                  <div className="mini-cart-items">
+                    {cart.map(item => (
+                      <div key={item.id} className="mini-cart-item">
+                        <img src={item.image} alt={item.name} className="mini-cart-img" />
+                        <div className="mini-cart-info">
+                          <h4>{item.name}</h4>
+                          <div className="mini-cart-price">{item.quantity} × {item.price}</div>
+                        </div>
+                        <button className="mini-cart-remove" onClick={() => removeFromCart(item.id)}>×</button>
                       </div>
-                      <button className="mini-cart-remove" onClick={() => removeFromCart(item.id)}>×</button>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  {cart.length > 0 && (
+                    <>
+                      <div className="mini-cart-total">
+                        <span>SUBTOTAL:</span>
+                        <span>${cartSubtotal.toFixed(2)}</span>
+                      </div>
+                      <div className="mini-cart-actions">
+                        <button className="mini-cart-btn view-cart-btn" onClick={() => setPage('cart')}>VIEW CART</button>
+                        <button className="mini-cart-btn checkout-btn-mini" onClick={() => setPage('checkout')}>CHECKOUT</button>
+                      </div>
+                    </>
+                  )}
+                  {cart.length === 0 && (
+                    <div className="empty-mini-cart">Your cart is empty</div>
+                  )}
                 </div>
-                {cart.length > 0 && (
-                  <>
-                    <div className="mini-cart-total">
-                      <span>SUBTOTAL:</span>
-                      <span>${cartSubtotal.toFixed(2)}</span>
-                    </div>
-                    <div className="mini-cart-actions">
-                      <button className="mini-cart-btn view-cart-btn" onClick={() => setPage('cart')}>VIEW CART</button>
-                      <button className="mini-cart-btn checkout-btn-mini" onClick={() => setPage('checkout')}>CHECKOUT</button>
-                    </div>
-                  </>
-                )}
-                {cart.length === 0 && (
-                  <div className="empty-mini-cart">Your cart is empty</div>
-                )}
+              </div>
+              <div className="nav-icon desktop-only-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
               </div>
             </div>
-            <div className="nav-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </div>
+
+            {/* Mobile Toggle */}
+            <button className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </button>
           </div>
         </div>
       </nav>
@@ -951,42 +975,53 @@ function App() {
             <span className="brand-logo">New York TOURNIER</span>
           </div>
         </section>
-      </>)}
+      </>)
+      }
 
-      {page === 'shop' && <Shop
-        onProductClick={(prod) => {
-          setSelectedProduct(prod);
-          setPage('product');
-        }}
-        addToCart={addToCart}
-      />}
+      {
+        page === 'shop' && <Shop
+          onProductClick={(prod) => {
+            setSelectedProduct(prod);
+            setPage('product');
+          }}
+          addToCart={addToCart}
+        />
+      }
 
-      {page === 'product' && <ProductDetail
-        product={selectedProduct}
-        onBack={() => setPage('shop')}
-        addToCart={addToCart}
-      />}
+      {
+        page === 'product' && <ProductDetail
+          product={selectedProduct}
+          onBack={() => setPage('shop')}
+          addToCart={addToCart}
+        />
+      }
 
-      {page === 'cart' && <CartPage
-        cartItems={cart}
-        onUpdateQuantity={updateQuantity}
-        onRemoveItem={removeFromCart}
-        onCheckout={() => setPage('checkout')}
-        onBackToShop={() => setPage('shop')}
-      />}
+      {
+        page === 'cart' && <CartPage
+          cartItems={cart}
+          onUpdateQuantity={updateQuantity}
+          onRemoveItem={removeFromCart}
+          onCheckout={() => setPage('checkout')}
+          onBackToShop={() => setPage('shop')}
+        />
+      }
 
-      {page === 'checkout' && <CheckoutPage
-        cartItems={cart}
-      />}
+      {
+        page === 'checkout' && <CheckoutPage
+          cartItems={cart}
+        />
+      }
 
       {page === 'contact' && <ContactPage />}
 
-      {page === 'blog' && <BlogList
-        onBlogPostClick={(post) => {
-          setSelectedBlogPost(post);
-          setPage('blog-detail');
-        }}
-      />}
+      {
+        page === 'blog' && <BlogList
+          onBlogPostClick={(post) => {
+            setSelectedBlogPost(post);
+            setPage('blog-detail');
+          }}
+        />
+      }
 
       {page === 'blog-detail' && <BlogDetail post={selectedBlogPost} />}
 
@@ -1073,7 +1108,7 @@ function App() {
         {/* Scroll to Top */}
         <div className="scroll-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>^</div>
       </footer>
-    </div>
+    </div >
   );
 }
 

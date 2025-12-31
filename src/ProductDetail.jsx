@@ -3,9 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import LightGallery from 'lightgallery/react';
 
 // import styles
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
-import 'lightgallery/css/lg-thumbnail.css';
+import 'lightgallery/css/lightgallery-bundle.min.css';
 
 // import plugins if needed
 import lgThumbnail from 'lightgallery/plugins/thumbnail';

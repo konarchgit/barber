@@ -22,6 +22,7 @@
   height: 60px;
   width: auto;
   object-fit: contain;
+  transition: height 0.3s;
 }
 
 .nav-links {
@@ -207,6 +208,13 @@
   font-size: 0.9rem;
 }
 
+/* Nav Actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 /* Mobile Toggle */
 .mobile-toggle {
   display: none;
@@ -216,6 +224,7 @@
   flex-direction: column;
   gap: 5px;
   z-index: 1001;
+  padding: 5px;
 }
 
 .mobile-toggle .bar {
@@ -225,15 +234,46 @@
   transition: all 0.3s;
 }
 
-/* Responsive Navbar & Hero */
 @media (max-width: 900px) {
+  .logo-img {
+    height: 40px;
+  }
+
+  .navbar {
+    padding: 0.6rem 0;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-icons {
+    display: flex;
+    gap: 0.8rem;
+    margin-right: 0;
+  }
+
+  .desktop-only-icon {
+    display: none !important;
+  }
+
   .mobile-toggle {
     display: flex;
   }
 
+  .navbar-container {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0;
+  }
+
   .nav-links {
+    display: none;
     position: fixed;
-    top: 70px;
+    top: 60px;
     left: 0;
     width: 100%;
     background-color: #1b1b1b;
@@ -243,9 +283,11 @@
     transform: translateY(-150%);
     transition: transform 0.4s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
   }
 
   .nav-links.mobile-open {
+    display: flex;
     transform: translateY(0);
   }
 
@@ -253,10 +295,8 @@
     width: 100%;
     justify-content: space-between;
     flex-wrap: wrap;
-    /* Allow submenu to break to new line */
   }
 
-  /* Make submenus static on mobile for simplicity or allow toggle */
   .submenu,
   .mega-menu {
     position: static;
@@ -268,120 +308,271 @@
     border-top: none;
     padding-left: 2rem;
     display: none;
-    /* Hidden by default on mobile until we add click logic, OR display block to always show */
-    /* For this request, let's keep it simple: Show them if "hover" logic applies or just stack them.
-       A common pattern is to just list them or hide complex menus. 
-       Let's display block for submenu but maybe hide mega menu or simplify it. */
   }
 
-  .nav-item:hover .submenu {
-    display: block;
-  }
-
-  .mega-menu {
+  .nav-item.submenu-active .submenu,
+  .nav-item.submenu-active .mega-menu {
+    display: flex;
     flex-direction: column;
+    position: static;
     width: 100%;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border-top: none;
+    padding: 1rem;
     left: 0;
   }
 
+  .mega-column {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .nav-item:hover .submenu,
   .nav-item:hover .mega-menu {
+    display: none;
+  }
+
+  .nav-item.submenu-active:hover .submenu,
+  .nav-item.submenu-active:hover .mega-menu {
     display: flex;
-    transform: none;
+  }
+}
+
+/* Medium Mobile */
+@media (max-width: 500px) {
+  .container {
+    padding: 0 10px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 350px) {
+  .container {
+    padding: 0 6px;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
   }
 
   .nav-icons {
-    display: none;
-    /* Often hidden or moved to menu on mobile */
+    gap: 0.4rem;
   }
 
-  /* Hero Mobile */
-  /* Hero Mobile - Static Banner */
-  .hero-slider-container {
-    height: auto;
-    min-height: auto;
-    display: block;
-    padding-bottom: 2rem;
+  .logo-img {
+    max-width: 70px;
+  }
+}
+
+@media (max-width: 260px) {
+  .logo-img {
+    height: 24px;
+    max-width: 50px;
   }
 
-  .slide {
-    display: none;
+  .nav-icon svg {
+    width: 14px;
+    height: 14px;
+    color: #fff !important;
   }
 
-  /* Show only the first slide as a static banner */
-  .slide:first-child {
-    display: flex;
-    /* Flexbox for stacking */
-    flex-direction: column-reverse;
-    /* Image on top or bottom? Let's put image on bottom or top? Usually Text on Top. 
-    Actually, let's keep it relative. */
-    flex-direction: column;
+  .mobile-toggle {
+    scale: 0.7;
+    margin-right: -2px;
+    display: flex !important;
+  }
+
+  .mobile-toggle .bar {
+    background-color: #fff !important;
+  }
+
+  .nav-actions {
+    gap: 0.1rem;
+    display: flex !important;
+    justify-content: flex-end;
+  }
+
+  .nav-icons {
+    gap: 0.1rem;
+    display: flex !important;
+  }
+
+  .navbar-container {
+    grid-template-columns: 50px 1fr auto;
+    padding: 0 4px;
+    display: grid !important;
+  }
+}
+
+/* Mobile Small */
+
+/* Hero Mobile Static Fix - Ultimate - ONLY FOR MOBILE */
+@media (max-width: 900px) {
+
+  /* Hero Mobile Static Fix - Ultimate */
+  .hero {
+    height: 600px !important;
+    min-height: 600px !important;
+    background-color: #111;
     position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
-    height: auto;
-    /* Natural height */
-    min-height: 400px;
-    opacity: 1 !important;
-    align-items: center;
-    justify-content: center;
-    padding-top: 2rem;
+    overflow: hidden !important;
+    padding: 0 !important;
   }
 
-  /* Hide the image wrapper or style it */
+  .hero-slider-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Force only the first slide to show and be static */
+  .slide:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 5;
+    padding-top: 280px !important;
+    /* Pushed significantly lower to clear the top area */
+    box-sizing: border-box;
+  }
+
+  /* Extra narrow screens (274px etc) */
+  @media (max-width: 300px) {
+    .slide:first-child {
+      padding-top: 260px !important;
+    }
+
+    .hero h1 {
+      font-size: 1.6rem !important;
+      line-height: 1.1 !important;
+    }
+
+    .hero-subtitle {
+      font-size: 0.7rem !important;
+      letter-spacing: 2px !important;
+    }
+  }
+
+  .slide:not(:first-child) {
+    display: none !important;
+  }
+
   .hero-image-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
-    opacity: 0.3;
-    /* Make it a background texture if it's just a man, or keep it visible? 
-     If it's a person, maybe keep it. But if it creates gaps, let's opacity it or cover it. */
+    z-index: 1;
+  }
+
+  .hero-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+    /* Clearer at top to see heads, darker at bottom for text */
+    z-index: 2;
   }
 
   .hero-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: top 40%;
   }
 
   .hero-content {
     position: relative;
-    /* Natural flow */
-    transform: none;
-    top: auto;
-    left: auto;
+    z-index: 10;
     width: 100%;
-    max-width: 100%;
-    text-align: center;
-    padding: 2rem 1rem;
-    z-index: 2;
+    max-width: 100% !important;
+    padding: 0 1.5rem !important;
+    margin: 0 !important;
+    display: block !important;
+    /* No nested flex needed */
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
   }
 
   .hero-subtitle {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-  }
-
-  .hero-desc {
-    font-size: 0.9rem;
-    max-width: 100%;
-    margin-bottom: 2rem;
+    color: #c4a158 !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase;
+    letter-spacing: 3px !important;
+    margin: 0 0 10px 0 !important;
+    font-weight: 700 !important;
+    display: block !important;
   }
 
   .hero h1 {
-    font-size: 2.5rem;
-    /* Ensure H1 specificity */
+    color: #fff !important;
+    font-size: 2rem !important;
+    /* Slightly smaller to fit 1 line if possible or clean 2 lines */
+    line-height: 1.2 !important;
+    margin: 0 0 15px 0 !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    display: block !important;
+  }
+
+  .hero-description {
+    color: #ccc !important;
+    font-size: 0.85rem !important;
+    line-height: 1.6 !important;
+    margin: 0 auto 25px auto !important;
+    max-width: 250px !important;
+    display: block !important;
+  }
+
+  .separator {
+    width: 40px !important;
+    height: 3px !important;
+    background-color: #c4a158 !important;
+    margin: 0 auto 25px auto !important;
+    display: block !important;
+  }
+
+  .btn {
+    display: inline-block !important;
+    background: #c4a158 !important;
+    color: #000 !important;
+    padding: 0.8rem 2rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    border: none !important;
+  }
+
+  .slider-controls,
+  .slider-dots {
+    display: none !important;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .dot.active {
+    background: #c4a158 !important;
   }
 }
 
@@ -439,27 +630,146 @@
   font-weight: bold;
 }
 
+/* Mini Cart Dropdown Styles */
+.mini-cart-dropdown {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: -10px;
+  width: 300px;
+  background: #1b1b1b;
+  border-top: 3px solid var(--color-primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 1100;
+  cursor: default;
+}
+
+.cart-icon-wrapper:hover .mini-cart-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mini-cart-header {
+  font-size: 0.85rem;
+  color: #888;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.mini-cart-items {
+  max-height: 250px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.mini-cart-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.mini-cart-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  background: #fff;
+  padding: 5px;
+}
+
+.mini-cart-info h4 {
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+  color: #fff;
+  font-family: var(--font-body);
+}
+
+.mini-cart-price {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.mini-cart-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.mini-cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mini-cart-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mini-cart-btn {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.view-cart-btn {
+  background: #333;
+  color: #fff;
+}
+
+.checkout-btn-mini {
+  background: var(--color-primary);
+  color: #000;
+}
+
+.empty-mini-cart {
+  text-align: center;
+  padding: 1rem 0;
+  color: #888;
+}
+
 /* Hero Section */
 .hero {
-  min-height: 100vh;
-  background-color: var(--color-bg);
-  /* We will remove the background image from cover and use the img within the component or flex layout */
+  height: 90vh;
+  min-height: 700px;
+  background-color: #0c0c0c;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
   padding-top: 80px;
-  /* Space for fixed navbar */
 }
 
 /* Slider Layout */
 .hero-slider-container {
   width: 100%;
-  max-width: var(--container-width);
+  max-width: 1400px;
   margin: 0 auto;
   position: relative;
-  height: 600px;
-  /* Fixed height for consistency during slides */
+  height: 100%;
 }
 
 .slide {
@@ -470,11 +780,11 @@
   height: 100%;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.8s ease-in-out, visibility 0.8s;
+  transition: opacity 1s ease-in-out, visibility 1s;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--spacing-sm);
+  justify-content: flex-start;
+  padding: 0 10%;
 }
 
 .slide.active {
@@ -484,32 +794,41 @@
 }
 
 .hero-image-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: flex-start;
-  max-width: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
   height: 100%;
-  align-items: center;
+  z-index: 1;
+}
+
+.hero-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #0c0c0c 10%, rgba(12, 12, 12, 0.7) 40%, transparent 100%);
+  z-index: 2;
 }
 
 .hero-image {
-  max-width: 100%;
-  max-height: 550px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  /* Ensure entire image is visible without crop for these generated images */
-  /* Add subtle shadow or frame if desired */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero-content {
+  position: relative;
+  z-index: 10;
   flex: 1;
-  padding-left: 4rem;
+  max-width: 650px;
+  padding-left: 2rem;
   text-align: left;
-  transform: translateY(20px);
+  transform: translateY(30px);
   opacity: 0;
-  transition: transform 0.8s 0.2s, opacity 0.8s 0.2s;
-  /* Delayed animation for content */
+  transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
 .slide.active .hero-content {
@@ -529,14 +848,14 @@
 }
 
 .hero h1 {
-  font-size: 4.5rem;
-  /* Slightly smaller to fit varied titles */
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
+  font-size: 5.5rem;
+  line-height: 1;
+  margin: 0 0 1.5rem 0;
   text-transform: uppercase;
   color: #fff;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: -2px;
+  max-width: 600px;
 }
 
 .hero-description {
@@ -548,42 +867,43 @@
 }
 
 .separator {
-  width: 60px;
-  height: 4px;
+  width: 80px;
+  height: 2px;
   background-color: var(--color-primary);
-  margin-bottom: 2rem;
-  display: inline-block;
+  margin: 2rem 0;
+  display: block;
 }
 
-/* Slider Controls */
 .slider-controls {
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 4rem;
+  left: 10%;
   display: flex;
-  gap: 1rem;
-  z-index: 10;
+  gap: 1.5rem;
+  z-index: 20;
 }
 
 .slider-btn {
-  width: 50px;
-  height: 50px;
-  border: 1px solid var(--color-text-muted);
-  /* or primary */
-  background: transparent;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
   color: #fff;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.2rem;
 }
 
 .slider-btn:hover {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #000;
+  transform: scale(1.1);
 }
 
 .slider-dots {
@@ -625,20 +945,42 @@
     padding-top: 4rem;
   }
 
-  .hero-image-wrapper {
-    max-width: 100%;
-    height: 400px;
-    margin-bottom: 2rem;
-    justify-content: center;
+  @media (max-width: 900px) {
+    .hero-image-wrapper {
+      max-width: 100%;
+      height: 680px;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
   }
 
-  .hero-content {
-    padding-left: 0;
-    text-align: center;
-    transform: none;
-    /* Simplify animation on mobile */
-    opacity: 1;
-    /* Simplify */
+
+
+  @media (min-width: 900px) {
+    .hero-image-wrapper {
+      max-width: 100%;
+      height: 400px;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero-content {
+      margin-top: 70px !important;
+
+    }
+  }
+
+  @media (min-width: 900px) {
+    .hero-content {
+      padding-left: 0;
+      text-align: center;
+      transform: none;
+      /* Simplify animation on mobile */
+      opacity: 1;
+      /* Simplify */
+    }
   }
 
   .hero h1 {
@@ -661,7 +1003,7 @@
 
   .hero-image-wrapper {
     max-width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     justify-content: center;
   }
 
@@ -1060,6 +1402,21 @@
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .passion-title {
+    font-size: 40px;
+    margin-bottom: 2rem;
+  }
+
+  .artists-title {
+    font-size: 2.5rem;
+  }
+
+  .appoint-title {
+    font-size: 2.5rem;
+  }
+}
+
 .artists-title {
   font-family: 'Oswald', sans-serif;
   font-size: 3.5rem;
@@ -1214,23 +1571,16 @@
 /* Override existing artist-card for slider compatibility */
 .artists-carousel-track .artist-card {
   flex-shrink: 0;
-  width: 320px;
-  /* Fixed width for carousel items */
-  margin-right: 2rem;
-  /* transform logic handles shifting. 
-     If we shift by -100%, we shift by full track width? No.
-     We need to shift by '1 Item Width + Gap'.
-     Javascript usually handles 'translateX(-(Index * ItemWidth))'.
-     
-     Since we set style={{ transform: translateX(-index * 100%) }} in JSX, 
-     if transform is % based on specific item, that's tricky.
-     
-     Simpler JS adjustment:
-     Let's hack the JSX to shift by rem or px if possible, or use standard calc.
-     
-     Re-visiting the JSX logic:
-     style={{ transform: `translateX( calc(-${artistIndex} * (320px + 2rem)) )` }}
-  */
+  width: 280px;
+  /* Reduced for better mobile fit */
+  margin-right: 1.5rem;
+}
+
+@media (max-width: 400px) {
+  .artists-carousel-track .artist-card {
+    width: 240px;
+    margin-right: 1rem;
+  }
 }
 
 /* Adjust button styles */
@@ -1410,29 +1760,110 @@
 
 @media (max-width: 768px) {
   .pricing-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
+    padding: 0 1rem;
   }
 
   .pricing-col-labels {
-    text-align: center;
-    justify-content: center;
-    margin-bottom: 2rem;
+    display: none;
+    /* Hide labels as they won't align in cards */
   }
 
-  /* On mobile, this table format breaks. 
-     Would need a completely different layout or horizontal scroll.
-     For now, letting it stack might look weird without re-structuring.
-     We'll hide labels in cells or use a scroll wrapper.
-  */
+  .pricing-col-header {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-row-label {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.8rem 0;
+  }
+
+  /* On mobile, we re-structure the table into three individual "Package cards" */
   .pricing-grid {
-    display: block;
-    /* Fallback to block for simple stacking if needed, but table data is hard to stack. */
-    overflow-x: auto;
-    white-space: nowrap;
-    grid-template-columns: 200px 150px 150px 150px;
-    /* Force min width scroll */
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  /* We'll hide the standard grid and show something else, 
+     but since the structure is deeply tied to the grid rows in HTML,
+     it's better to use CSS grid to rearrange everything. 
+     Actually, the current HTML structure makes it hard to split into cards.
+     Let's try a better grid approach for mobile.
+  */
+
+  .pricing-grid {
     display: grid;
+    grid-template-columns: 1fr;
+    border: none;
+  }
+
+  /* We need to re-think this. The HTML has labels followed by 3 cells. 
+     Standard: cell1, cell2, cell3
+     Sleek: cell1, cell2, cell3
+     ...
+     This is essentially 4 columns.
+    gap: 1rem;
+    background: transparent;
+    padding: 0;
+  }
+
+  .pricing-row-label {
+    background: #c4a158;
+    color: #000;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    justify-content: center;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .pricing-cell {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-top: none;
+  }
+
+  .pricing-cell::before {
+    content: "STANDARD";
+    font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+  }
+
+  /* Specific labels for each cell in the row of 3 */
+  .pricing-cell:nth-of-type(4n+2)::before {
+    content: "STANDARD";
+  }
+
+  .pricing-cell:nth-of-type(4n+3)::before {
+    content: "DIAMOND";
+  }
+
+  .pricing-cell:nth-of-type(4n+4)::before {
+    content: "GOLD";
+  }
+
+  .pricing-cell.featured-cell {
+    border-left: 3px solid #c4a158;
+    border-right: 3px solid #c4a158;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .pricing-col-header.featured {
+    transform: none;
+    box-shadow: none;
+    margin-bottom: 1rem;
   }
 }
 
@@ -1892,6 +2323,18 @@
   .appoint-left {
     min-height: 400px;
     padding: 3rem 1rem;
+  }
+
+  .appoint-right {
+    padding: 2rem 1rem;
+  }
+
+  .wizard-title {
+    font-size: 2rem;
+  }
+
+  .wizard-option {
+    padding: 0.8rem 1rem;
   }
 }
 
@@ -2681,6 +3124,7 @@
   top: 100%;
   right: 0;
   width: 320px;
+  max-width: 90vw;
   background: #1a1a1a;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   z-index: 1000;
@@ -2810,11 +3254,45 @@
 @media (max-width: 768px) {
   .cart-table {
     display: block;
-    overflow-x: auto;
+  }
+
+  .cart-table thead {
+    display: none;
+  }
+
+  .cart-table tr {
+    display: block;
+    border: 1px solid #eee;
+    margin-bottom: 2rem;
+    padding: 1rem;
+  }
+
+  .cart-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .cart-table td:last-child {
+    border-bottom: none;
+  }
+
+  .cart-table td::before {
+    content: attr(data-title);
+    font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+    color: #333;
+  }
+
+  .product-thumbnail img {
+    width: 60px;
   }
 
   .cart-actions {
     flex-direction: column;
+    gap: 1.5rem;
   }
 
   .coupon-code {

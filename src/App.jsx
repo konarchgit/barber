@@ -253,7 +253,7 @@ function App() {
 
       <nav className="navbar">
         <div className="container navbar-container">
-          <a href="#" className="logo">
+          <a href="#" className="logo" onClick={(e) => { e.preventDefault(); setPage('home'); }}>
             <img src={require('./barber-logo.png')} alt="Barber Salon" className="logo-img" />
           </a>
 
@@ -295,19 +295,20 @@ function App() {
                 <div className="mega-column">
                   <h4>CATEGORY PAGE</h4>
                   <ul>
-                    <li><a href="#">Men's</a></li>
-                    <li><a href="#">Hair Tools</a></li>
-                    <li><a href="#">Hair Styling Products</a></li>
-                    <li><a href="#">Hair & Treatments</a></li>
-                    <li><a href="#">Shampoo & Conditioner</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('shop'); }}>All Products</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('shop'); }}>Men's</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('shop'); }}>Hair Tools</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('shop'); }}>Hair Styling Products</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('shop'); }}>Hair & Treatments</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('shop'); }}>Shampoo & Conditioner</a></li>
                   </ul>
                 </div>
                 <div className="mega-column">
-                  <h4>SINGLE PRODUCT</h4>
+                  <h4>SHOP PAGES</h4>
                   <ul>
-                    <li><a href="#">Single Product</a></li>
-                    <li><a href="#">Cart</a></li>
-                    <li><a href="#">Checkout</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('shop'); }}>Shop Page</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('cart'); }}>Cart</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('checkout'); }}>Checkout</a></li>
                     <li><a href="#">Wishlist</a></li>
                   </ul>
                 </div>

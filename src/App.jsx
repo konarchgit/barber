@@ -259,12 +259,16 @@ function App() {
 
           <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
             <div className="nav-item">
-              <a href="#" className={page === 'home' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('home') }}>Home</a>
+              <a href="#" className={page === 'home' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('home'); setMobileMenuOpen(false); }}>Home</a>
               <span className="nav-arrow">∨</span>
             </div>
             <div className={`nav-item has-submenu ${activeSubmenu === 'portfolio' ? 'submenu-active' : ''}`}>
-              <a href="#" onClick={(e) => { if (window.innerWidth <= 900) { e.preventDefault(); toggleSubmenu('portfolio'); } }}>Portfolio</a>
-              <span className="nav-arrow">∨</span>
+              <a href="#" onClick={(e) => {
+                e.preventDefault();
+                setPage('portfolio'); // Or whatever portfolio page we have
+                setMobileMenuOpen(false);
+              }}>Portfolio</a>
+              <span className="nav-arrow" onClick={(e) => { e.stopPropagation(); toggleSubmenu('portfolio'); }}>∨</span>
               <ul className="submenu">
                 <li><a href="#">Portfolio Masonry</a></li>
                 <li><a href="#">Portfolio Grid</a></li>
@@ -277,20 +281,16 @@ function App() {
               </ul>
             </div>
             <div className="nav-item">
-              <a href="#" className={page === 'blog' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('blog') }}>Blog</a>
+              <a href="#" className={page === 'blog' ? 'active-link' : ''} onClick={(e) => { e.preventDefault(); setPage('blog'); setMobileMenuOpen(false); }}>Blog</a>
               <span className="nav-arrow">∨</span>
             </div>
             <div className={`nav-item has-submenu mega-menu-parent ${activeSubmenu === 'shop' ? 'submenu-active' : ''}`}>
               <a href="#" className={page === 'shop' ? 'active-link' : ''} onClick={(e) => {
-                if (window.innerWidth <= 900) {
-                  e.preventDefault();
-                  toggleSubmenu('shop');
-                } else {
-                  e.preventDefault();
-                  setPage('shop');
-                }
+                e.preventDefault();
+                setPage('shop');
+                setMobileMenuOpen(false);
               }}>Shop</a>
-              <span className="nav-arrow">∨</span>
+              <span className="nav-arrow" onClick={(e) => { e.stopPropagation(); toggleSubmenu('shop'); }}>∨</span>
               <div className="mega-menu">
                 <div className="mega-column">
                   <h4>CATEGORY PAGE</h4>
@@ -351,12 +351,13 @@ function App() {
             </div>
             <div className={`nav-item has-submenu ${activeSubmenu === 'pages' ? 'submenu-active' : ''}`}>
               <a href="#" className={page === 'contact' ? 'active-link' : ''} onClick={(e) => {
+                // Pages usually doesn't have its own page, so we keep toggle behavior if it's just a grouping
                 if (window.innerWidth <= 900) {
                   e.preventDefault();
                   toggleSubmenu('pages');
                 }
               }}>Pages</a>
-              <span className="nav-arrow">∨</span>
+              <span className="nav-arrow" onClick={(e) => { e.stopPropagation(); toggleSubmenu('pages'); }}>∨</span>
               <ul className="submenu">
                 <li><a href="#" onClick={(e) => { e.preventDefault(); setPage('contact') }}>Contact Us</a></li>
                 <li><a href="#">About Us</a></li>
